@@ -8,11 +8,17 @@ import java.util.Scanner;
  * @author Your Name
  */
 public class MathGame {
-    public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        Random rand = new Random();
-        int correctCount = 0;
+    private Scanner input;
+    private Random rand;
 
+    public MathGame() {
+        input = new Scanner(System.in);
+        rand = new Random();
+    }
+
+    // Returns the score of the game
+    public int playGame() {
+        int correctCount = 0;
         System.out.println("Welcome to the Math Game!\n");
 
         for (int i = 0; i < 10; i++) {
@@ -28,6 +34,9 @@ public class MathGame {
                 continue;
             }
 
+            // Consume newline character left by nextInt()
+            input.nextLine();
+
             if (question.checkAnswer(response)) {
                 System.out.println("Correct! Well done!\n");
                 correctCount++;
@@ -36,14 +45,20 @@ public class MathGame {
             }
         }
 
-        // Display final score
-        System.out.printf("You got %d out of 10 correct.\n", correctCount);
-        if (correctCount >= 8) {
+        displayScore(correctCount);
+        return correctCount;  // Return the score
+    }
+
+    private void displayScore(int score) {
+        System.out.printf("You got %d out of 10 correct.\n", score);
+        if (score >= 8) {
             System.out.println("Great job! You're a math pro!");
         } else {
             System.out.println("Keep practicing, you'll get better!");
         }
+    }
 
+    public void close() {
         input.close();
     }
 }
