@@ -1,41 +1,45 @@
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
- * This is a simple math game for grades 3-5.
+ * A simple math game for grades 3-5.
  *
- * @author Your Name
+ * This class handles game interactions, takes user input,
+ * and provides feedback on correct and incorrect answers.
+ *
+ * @author Eli McArthur
  */
+
 public class MathGame {
     private Scanner input;
-    private Random rand;
 
     public MathGame() {
         input = new Scanner(System.in);
-        rand = new Random();
     }
 
-    // Returns the score of the game
+    /**
+     * Runs the game and returns the final score.
+     *
+     * @return score achieved by the player
+     */
     public int playGame() {
         int correctCount = 0;
         System.out.println("Welcome to the Math Game!\n");
 
         for (int i = 0; i < 10; i++) {
-            Question question = new Question(rand);
-            System.out.print(question.getQuestion());
+            MathQuestion question = new MathQuestion();
+            System.out.println(question.getQuestion());
 
             int response;
             try {
                 response = input.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input! Please enter a number.\n");
-                input.next(); // Clear invalid input
+                input.nextLine(); // Correct buffer handling
                 continue;
             }
 
-            // Consume newline character left by nextInt()
-            input.nextLine();
+            input.nextLine(); // Consume newline
 
             if (question.checkAnswer(response)) {
                 System.out.println("Correct! Well done!\n");
@@ -46,7 +50,7 @@ public class MathGame {
         }
 
         displayScore(correctCount);
-        return correctCount;  // Return the score
+        return correctCount;
     }
 
     private void displayScore(int score) {
